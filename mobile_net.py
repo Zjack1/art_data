@@ -9,11 +9,11 @@ from xlutils.copy import copy
 #wb = copy(rb)
 #ws = wb.get_sheet(0)
 
-wb = xlwt.Workbook() 
+wb = xlwt.Workbook() ####生成新的Excel
 ws = wb.add_sheet('Sheet1') 
 ####写入测试数据的版本
-b2=['16bit-old-dma','16bit-new-dma','16-','64bit-new-dma','64bit-old-dma','64-']
-
+b2=['16bit-old-dma','16bit-new-dma','16-','Precent']
+####测试数据的网络层
 b1=['conv0','conv1/dw','conv1','conv2/dw','conv2','conv3/dw','conv3','conv4/dw','conv4',
 'conv5/dw','conv5','conv6/dw','conv6','conv7/dw','conv7','conv8/dw','conv8','conv9/dw',
 'conv9','conv10/dw','conv10','conv11/dw','conv11',
@@ -22,7 +22,7 @@ b1=['conv0','conv1/dw','conv1','conv2/dw','conv2','conv3/dw','conv3','conv4/dw',
 'conv16_2_mbox_loc_','conv16_2_mbox_conf_new_','conv15_2_mbox_loc_','conv15_2_mbox_conf_new_',
 'conv14_2_mbox_loc_','conv14_2_mbox_conf_new_','conv13_mbox_loc_','conv13_mbox_conf_new_',
 'conv11_mbox_loc','conv11_mbox_conf_new_']
-
+####每层需要对比的数据
 b0=['TestPrepare','before forward compute','InputNumberForCircles','GroupNumberForCircles',
 'InYNumberForCircles','InXNumberForCircles','OutputNumberPerGroupForCircles',
 'OutTileDMAUpdate','In Tile Enqueue','In Tile DMA wait','Pad Input','Weights Enqueue',
@@ -49,7 +49,7 @@ for i in range(len(a)):
 #添加需要提取的TXT文本地址
 fn = open("D:\\Porfile\\Desktop\\16bit-new-dma.txt",'rb')
 fo = open("D:\\Porfile\\Desktop\\16bit-old-dma.txt",'rb')
-f1 = open("D:\\Porfile\\Desktop\\111.txt",'a')
+#f1 = open("D:\\Porfile\\Desktop\\111.txt",'a')
 #正则提取关键数据
 findword1="Default TestPrepare.*"
 findword2="Default Test0.*"
@@ -125,7 +125,7 @@ for i in range(len(d_old)):
 		ws.write(3+j,1+i*k2,int(d_old[i][j]))####起始写入坐标
 		ws.write(3+j,2+i*k2,int(c_new[i][j]))		
 		ws.write(3+j,3+i*k2,int(d_old[i][j])-int(c_new[i][j]))
-
+		ws.write(3+j,4+i*k2,str(round((int(d_old[i][j])-int(c_new[i][j]))*100/int(d_old[i][j]),4))+'%')
 wb.save("D:/Porfile/Desktop/16bit.xls")		
 
 
